@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="middle-circle"></div>
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+    <audio src="assets/tick.wav"></audio>
+
+  <script>
+
+const secondHand = document.querySelector(".second-hand");
+const minHand = document.querySelector(".min-hand");
+const hourHand = document.querySelector(".hour-hand");
+const sound = document.querySelector("audio");
+
+function setDate() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const minutes = now.getMinutes();
+    let hours = now.getHours();
+    if (hours > 12) hours -= 12;
+    const secondDegrees = ((seconds / 60) * 360) + 90;
+    const minuteDegrees = ((minutes / 60) * 360) + 90;
+    const hourDegrees = ((hours / 12) * 360) + 90;
+
+    secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+    minHand.style.transform = `rotate(${minuteDegrees}deg)`;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+
+    secondHand.classList.add("blurred");
+    sound.playbackRate = 2;
+    sound.volume = 0.5;
+    sound.play();
+    setTimeout(function(){ secondHand.classList.remove("blurred"); }, 100)
+
+}
+
+setInterval(setDate, 1000);
+
+  </script>
+</body>
+</html>
